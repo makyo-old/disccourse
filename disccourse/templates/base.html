@@ -1,0 +1,12 @@
+<html>
+    <head>
+        <title>{% blcok title %}{% endblock %} | DiscCourse</title>
+        <script src="http://lib.jnsq.us/jquery/" type="text/javascript"></script>
+        {% blcok head %}{% endblock %}
+    </head>
+    <body>
+        <h1>DiscCourse</h1>
+        <h2>{% block header %}{% endblock %}</h2>
+        {% block content %}{% endblock %}
+    </body>
+</html>

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Create Location{% endblock %}
+{% block header %}Create Location{% endblock %}
+
+{% block head %}
+<script type="text/javascript">
+    var wpid, calls = 0;
+    $(function() {
+        if (geo_position_js.init()) {
+        wpid = navigator.geolocation.watchPosition(
+            function(result) {
+                $('#wpid').text(wpid);
+                for (var idx in result.coords) {
+                    $('#coords .' + idx).val(result.coords[idx]);
+                }
+                $('#calls').text(++calls);
+            },
+            function(result) {
+                $('#high').html(result.code + ' - ' + result.message);
+            },
+            { enableHighAccuracy: true, maximumAge: 0 }
+            );
+        } else {
+            $('body').html("No geo services available");
+        }
+    });
+</script>
+{% block %}
+
+{% block content %}
+<form method="post">
+    <p><strong>Coordinates:</strong> <input type="text" name="latitude" class="latitude" />,<input type="text" name="longitude" class="longitude" /> <em>(Accuracy: <input type="text" name="accuracy" class="accuracy" />)</em></p>
+    <p><strong>Heading:</strong> <input type="text" name="heading" class="heading" /></p>
+    <p><strong>Speed:</strong> <input type="text" name="speed" class="speed" /></p>
+    <p><strong>Altitude:</strong> <input type="text" name="altitude" class="altitude" /> <em>(Accuracy: <input type="text" name="altitudeAccuracy" class="altitudeAccuracy" />)</em></p>
+    <p><strong>Calls:</strong> <span id="calls"></span></p>
+    <p><strong>WPID:</strong> <span id="wpid"></span></p>
+    {% csrf_token %}
+    <p><input type="submit" value="Save location" /></p>
+</form>
+
+{% endblock %}
